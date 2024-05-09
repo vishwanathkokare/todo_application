@@ -28,7 +28,7 @@ body{
     background-color:var(--Very-Dark-Desaturated-Blue);
 }
 
-.list-item,.input-color::placeholder{
+.list-item,.input-color::placeholder,.input-color,.input-color:focus{
     color:var(--Light-Grayish-Blue);
 }
 
