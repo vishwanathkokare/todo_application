@@ -17,7 +17,7 @@
         <div class="alert alert-warning alert-dismissible fade" role="alert">
             Please Enter A Input Value To Create Todo
             <button type="button" class="btn-close border-0" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+        </div>
         <!-- alert end            -->
         <!-- logo and icon start -->
         <h1 class="text-white text-center logo fw-bold mb-3">TODO APP</h1>
@@ -39,30 +39,71 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
+        //define all element
+        const body = document.querySelector('body');
         const input = document.querySelector('#input');
         const listGroup = document.querySelector('#todos');
+        const listGroupItem = document.querySelector('.list-item');
         const alert = document.querySelector('.alert');
         const alertCloseBtn = document.querySelector('.btn-close');
 
-        input.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter'  && input.value) {
-                listGroup.innerHTML += `
-                  <li class="list-group-item list-item clearfix py-2 my-1 border-0">
-                    <input class="form-check-input me-2 mt-2 p-2 check" type="radio">
-                    <label class="form-check-label mt-1">${input.value}</label>
-                    <button class="btn float-end cross"><img src="images/icon-cross.svg" alt="X"></button>
-                  </li>
-                  `
-                  input.value = '';
-            } else if (event.key === 'Enter' && 
-            !input.value) {
-                alert.classList.add('show');
-            }
-        }) 
-
-        alertCloseBtn.addEventListener('click',()=>{
+        //alert btn close remove show class to hide element        
+        alertCloseBtn.addEventListener('click', () => {
             alert.classList.remove('show');
         })
+
+        //function to load all todo
+        const loadTodo = () =>{
+            const todo = localStorage.getItem('todos');
+            listGroup.innerHTML = '';
+            todo && JSON.parse(todo).map((item, itemIndex) => {
+                listGroup.innerHTML += `
+                  <li class="list-group-item list-item clearfix py-2 my-1 border-0 rounded">
+                    <label class="form-check-label mt-1 ms-2">${item}</label>
+                    <button class="btn float-end cross" onclick="delItem(${item,itemIndex})">
+                        <img src="images/icon-cross.svg" alt="X">
+                        </button>
+                  </li>
+                `
+            });
+        }
+
+        //refersh onload fetch localstorage todo data
+        body.onload = loadTodo();
+
+        //on enter to add todo
+        input.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter' && input.value) {
+                const todo = localStorage.getItem('todos');
+                const data = [input.value];
+                if (!todo) {
+                    const dataJSON = JSON.stringify(data);
+                    localStorage.setItem('todos', dataJSON);
+                    loadTodo();
+                } else {
+                    const todosParse = JSON.parse(todo);
+                    const addTodo = [...todosParse, ...data];
+                    const dataJSON = JSON.stringify(addTodo);
+                    localStorage.setItem('todos', dataJSON);
+                    loadTodo();
+                }
+                input.value = '';
+            } else if (event.key === 'Enter' &&
+                !input.value) {
+                alert.classList.add('show');
+            }
+        })
+
+        // delete todo item
+        const delItem = (item,itemIndex) =>{
+          const todos = localStorage.getItem('todos'); 
+          const parseTodos = JSON.parse(todos);  
+          parseTodos.pop(itemIndex); 
+          const stringifyTodos = JSON.stringify(parseTodos);
+          localStorage.setItem('todos',stringifyTodos);
+          loadTodo();
+        }
+
     </script>
 </body>
 
