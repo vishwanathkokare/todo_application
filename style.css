@@ -1,0 +1,48 @@
+:root{
+/* ### Primary */
+--Check-Background: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+
+/* ### Dark Theme */
+--Very-Dark-Blue: hsl(235, 21%, 11%);
+--Very-Dark-Desaturated-Blue: hsl(235, 24%, 19%);
+--Light-Grayish-Blue: hsl(234, 39%, 85%);
+--Light-Grayish-Blue-hover: hsl(236, 33%, 92%);
+--Dark-Grayish-Blue: hsl(234, 11%, 52%);
+--Very-Dark-Grayish-Blue: hsl(233, 14%, 35%);
+}
+
+body{
+    background-color: var(--Very-Dark-Blue);
+    background-image: url('images/bg-mobile.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 40%;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+}
+
+.logo{
+    letter-spacing: .75rem;
+}
+
+.input-color,.input-color:focus,.list-item{
+    background-color:var(--Very-Dark-Desaturated-Blue);
+}
+
+.list-item,.input-color::placeholder{
+    color:var(--Light-Grayish-Blue);
+}
+
+.list-item:hover{
+    color:var(--Light-Grayish-Blue-hover);
+}
+
+.check{
+    height: 20px;
+    background: var(--Check-Background);
+}
+
+@media screen and (min-width:650px) {
+   body{
+    background-image: url('images/bg-desktop.jpg');
+   } 
+}
