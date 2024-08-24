@@ -94,15 +94,31 @@
             }
         })
 
-        // delete todo item
-        const delItem = (item,itemIndex) =>{
-          const todos = localStorage.getItem('todos'); 
-          const parseTodos = JSON.parse(todos);  
-          parseTodos.pop(itemIndex); 
-          const stringifyTodos = JSON.stringify(parseTodos);
-          localStorage.setItem('todos',stringifyTodos);
-          loadTodo();
-        }
+        const delItem = (itemIndex) => {
+  // Retrieve todos from localStorage
+  const todos = localStorage.getItem('todos'); 
+
+  // Parse the retrieved todos
+  const parseTodos = JSON.parse(todos);  
+
+  // Check if parseTodos is an array and if itemIndex is within bounds
+  if (Array.isArray(parseTodos) && itemIndex >= 0 && itemIndex < parseTodos.length) {
+    // Remove the item at the specified index
+    parseTodos.splice(itemIndex, 1); 
+
+    // Convert the updated array back to a JSON string
+    const stringifyTodos = JSON.stringify(parseTodos);
+
+    // Save the updated todos back to localStorage
+    localStorage.setItem('todos', stringifyTodos);
+
+    // Reload the todo list (assuming loadTodo is a function that updates the UI)
+    loadTodo();
+  } else {
+    alert('Todo Was Not Removed!');
+  }
+};
+
 
     </script>
 </body>
